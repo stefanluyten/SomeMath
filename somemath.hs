@@ -7,7 +7,11 @@ fact 0 = 1
 fact n = n * fact ( n - 1 ) 
 
 -- Ackermann function
- 
+data P = P !Int !Int
+ack :: P -> (Int -> Int) -> Int
+ack (P 0 n) k = k (n + 1)
+ack (P m 0) k = ack (P (m-1) 1) k
+ack (P m n) k = ack (P m (n-1)) (\a -> ack (P (m-1) a) k)
 
 -- what is the area of a circle with a given radius
 data Area = Circle Float
