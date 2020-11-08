@@ -6,10 +6,13 @@ fact :: Integer -> Integer
 fact 0 = 1 
 fact n = n * fact ( n - 1 ) 
 
+-- Ackermann function
+ 
+
 -- what is the area of a circle with a given radius
 data Area = Circle Float
 surface :: Area -> Float   
-surface (Circle r) = pi * r ^ 2  
+surface (Circle r) = pi * r ^ 2     
 
 -- what is the circuleference of a circle with a given radius
 circumference :: Float -> Float
