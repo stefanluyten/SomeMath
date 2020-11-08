@@ -13,6 +13,13 @@ ack (P 0 n) k = k (n + 1)
 ack (P m 0) k = ack (P (m-1) 1) k
 ack (P m n) k = ack (P m (n-1)) (\a -> ack (P (m-1) a) k)
 
+mem_ack :: Int -> Int -> Int
+mem_ack = (map ack [0 ..] !!)
+        where 
+            ack 0 n  = n+1
+            ack m 0  = ack (m-1) 1 
+            ack m n = ack (m-1) (ack m (n-1))
+
 -- what is the area of a circle with a given radius
 data Area = Circle Float
 surface :: Area -> Float   
@@ -49,16 +56,23 @@ quadraticRoots (a, b, c) =
 
 -- what is the n-th fibonacci number
 -- what are the first n numbers of the fibonacci sequence
-fib :: (Eq a, Num a, Num p) => a -> p
-fib 0 = 0
-fib 1 = 1
-fib n = fib(n-1) + fib(n-2)
-generateFibonacci :: (Enum a1, Eq a1, Num a1, Num a2) => a1 -> [a2]
-generateFibonacci n = [fib i | i <- [0..n]]
+--fib :: (Eq a, Num a, Num p) => a -> p
+--fib 0 = 0
+--fib 1 = 1
+--fib n = fib(n-1) + fib(n-2)
+generateFibonacci :: Int -> [Integer]
+generateFibonacci n = [mem_fib i | i <- [0..n]]
+
+mem_fib :: Int -> Integer
+mem_fib = (map fib [0 ..] !!)
+        where 
+            fib 0 = 0
+            fib 1 = 1
+            fib n = mem_fib (n-2) + mem_fib (n-1)
 
 -- what is the (approximate) golden ratio of the n-th fibonacci number
-phi :: (Fractional a1, Eq a2, Num a2) => a2 -> a1
-phi p = fib (p-1) / fib (p-2) -- golden ratio
+-- phi :: (Fractional a1, Eq a2, Num a2) => a2 -> a1
+-- phi p = mem_fib (p-1) / mem_fib (p-2) -- golden ratio
 
 -- what is the n-th lucas-lehmer number
 -- what are the first n numbers of the lucas-lehmer sequence
